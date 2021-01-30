@@ -15,7 +15,9 @@ GUI.resizable(width=False, height=False)
 
 
 connection_status = False
-filtered_data = ""
+value1 = 0
+value2 = 0
+value3 = 0
 sample_rate = 0.05 # 50 ms
 
 def ConnectionEnd():
@@ -62,25 +64,41 @@ def Try_Connection():
 def SerialDataAcq():
     global connection_status
     global serial_object
-    global filtered_data
+    global value1
+    global value2
+    global value3
 
     while(1):
         time.sleep(0.01) #delay for do not overload the CPU
         while(connection_status):
             try:
                 serial_input = serial_object.readline()
-                filtered_data = serial_input
+                if(len(serial_input)):
+
+                    v1 = [serial_input[5], serial_input[4]]
+                    value1 = int.from_bytes(v1,byteorder = 'big')
+
+                    v2 = [serial_input[7], serial_input[6]]
+                    value2 = int.from_bytes(v2,byteorder = 'big')
+                    
+                    v3 = [serial_input[9], serial_input[8]]
+                    value3 = int.from_bytes(v3,byteorder = 'big')
+
+                
             except:
                 print("Connection Error")
 
 def UpdateGUI():
     global connection_status
-    global filtered_data
+    global value1
+    global value2
+    global value3
     while(1):
         time.sleep(0.01)#delay for do not overload the CPU
         while(connection_status):
             time.sleep(sample_rate/2)
-            print(filtered_data)
+            print("{} | {} | {}".format(value1,value2,value3))
+            
             
     
 

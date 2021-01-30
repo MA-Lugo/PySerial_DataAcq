@@ -73,7 +73,7 @@ def SerialDataAcq():
         while(connection_status):
             try:
                 serial_input = serial_object.readline()
-                if(len(serial_input)):
+                if(len(serial_input) == 12):
 
                     v1 = [serial_input[5], serial_input[4]]
                     value1 = int.from_bytes(v1,byteorder = 'big')
@@ -83,7 +83,7 @@ def SerialDataAcq():
                     
                     v3 = [serial_input[9], serial_input[8]]
                     value3 = int.from_bytes(v3,byteorder = 'big')
-
+                
                 
             except:
                 print("Connection Error")
@@ -97,10 +97,17 @@ def UpdateGUI():
         time.sleep(0.01)#delay for do not overload the CPU
         while(connection_status):
             time.sleep(sample_rate/2)
-            print("{} | {} | {}".format(value1,value2,value3))
-            
-            
-    
+            #print("{} | {} | {}".format(value1,value2,value3))
+
+            input1.set(str(value1))
+            pbar1["value"] = value1
+
+            input2.set(str(value2))
+            pbar2["value"] = value2
+
+            input3.set(str(value3))
+            pbar3["value"] = value3
+                
 
 myThread1 = threading.Thread(target = UpdateGUI)
 myThread1.daemon = True
@@ -164,24 +171,24 @@ pbar1["value"] = 512
 
 pbar2 = ttk.Progressbar(style = "blue.Horizontal.TProgressbar",orient = HORIZONTAL, mode = 'determinate', length = 130, max = 1024)
 pbar2.place(x = 80+155, y = 110, anchor = "center")
-pbar2["value"] = 612
+pbar2["value"] = 512
 
 pbar3 = ttk.Progressbar(style = "yellow.Horizontal.TProgressbar",orient = HORIZONTAL, mode = 'determinate', length = 130, max = 1024)
 pbar3.place(x = 80+155+155, y = 110, anchor = "center")
-pbar3["value"] = 824
+pbar3["value"] = 512
 
 #VARIABLE LABELS
 input1   = StringVar()
-input1.set("0512")
+input1.set("0")
 Label(textvariable = input1,font =("", 25),bg = bg_color,fg = label_color).place(x = 80, y= 65,anchor= "center")
 
 input2   = StringVar()
-input2.set("0612")
+input2.set("0")
 Label(textvariable = input2,font =("", 25),bg = bg_color,fg = label_color).place(x = 80+155, y= 65,anchor= "center")
 
-input2   = StringVar()
-input2.set("0824")
-Label(textvariable = input2,font =("", 25),bg = bg_color,fg = label_color).place(x = 80+155+155, y= 65,anchor= "center")
+input3   = StringVar()
+input3.set("0")
+Label(textvariable = input3,font =("", 25),bg = bg_color,fg = label_color).place(x = 80+155+155, y= 65,anchor= "center")
 
 
 #BUTTONS

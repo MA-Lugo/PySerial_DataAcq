@@ -3,7 +3,7 @@
 Serial Real Time Data Acquisition GUI with Python
 
 Simple interfaz gráfica de usuario para adquirir datos a través de los puertos serie (COM).  
-
+![](https://drive.google.com/uc?export=view&id=1ZMwxa3LgcCWx2dhNmHJYU_r66A-z1OSK)
 ## Comenzando 🚀
 
 ### Pre-requisitos 📋

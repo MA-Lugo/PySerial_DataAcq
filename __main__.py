@@ -12,13 +12,17 @@ GUI.title("UART Data Acquisition")
 GUI.configure(bg = bg_color) 
 GUI.geometry('470x186')
 GUI.resizable(width=False, height=False)
-
+# Gets both half the screen width/height and window width/height
+positionRight = int(GUI.winfo_screenwidth()/2 - 470/2)
+positionDown = int(GUI.winfo_screenheight()/2 - 186/2)
+# Positions the window in the center 
+GUI.geometry("+{}+{}".format(positionRight, positionDown))
 
 connection_status = False
 value1 = 0
 value2 = 0
 value3 = 0
-sample_rate = 0.05 # 50 ms
+refresh_rate = 40 ## 40Hz
 
 def ConnectionEnd():
     global connection_status
@@ -94,9 +98,9 @@ def UpdateGUI():
     global value2
     global value3
     while(1):
-        time.sleep(0.01)#delay for do not overload the CPU
+        time.sleep(1/refresh_rate)#refresh rate 
         while(connection_status):
-            time.sleep(sample_rate/2)
+            time.sleep(1/refresh_rate)
             #print("{} | {} | {}".format(value1,value2,value3))
 
             input1.set(str(value1))

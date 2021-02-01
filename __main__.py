@@ -167,16 +167,17 @@ def SerialDataAcq():
         while(connection_status):
             try:
                 serial_input = serial_object.readline()
-                if(len(serial_input) == 12 and serial_input[0] == 0x24 ):
+                if(len(serial_input) == 12 and serial_input[0] == 0x24 ): #12bytes and "$" Start frame
+                    if(serial_input[1] == 0x44 and serial_input[2] == 0x41 and serial_input[3] == 0x51):##header req "DAQ"
 
-                    v1 = [serial_input[5], serial_input[4]]
-                    ch1.value = int.from_bytes(v1,byteorder = 'big')
+                        v1 = [serial_input[5], serial_input[4]]
+                        ch1.value = int.from_bytes(v1,byteorder = 'big')
 
-                    v2 = [serial_input[7], serial_input[6]]
-                    ch2.value = int.from_bytes(v2,byteorder = 'big')
-                    
-                    v3 = [serial_input[9], serial_input[8]]
-                    ch3.value = int.from_bytes(v3,byteorder = 'big')
+                        v2 = [serial_input[7], serial_input[6]]
+                        ch2.value = int.from_bytes(v2,byteorder = 'big')
+                        
+                        v3 = [serial_input[9], serial_input[8]]
+                        ch3.value = int.from_bytes(v3,byteorder = 'big')
                 
                 
             except:
@@ -187,7 +188,7 @@ def UpdateGUI():
     global connection_status
 
     while(1):
-        time.sleep(1/refresh_rate)#delay for do not overload the CPU
+        time.sleep(1/refresh_rate)
 
 
 

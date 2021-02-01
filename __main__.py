@@ -5,10 +5,17 @@ from tkinter import *
 from tkinter import ttk
 import serial
 
+class Channel:
+    name = "Variable"
+    value = 0
+    max  = 1023
 
+ch1 = Channel()
+ch2 = Channel()
+ch3 = Channel()
 
 GUI = Tk()
-GUI.title("UART Data Acquisition")
+GUI.title("Serial Data Acquisition")
 GUI.configure(bg = bg_color) 
 GUI.geometry('470x186')
 GUI.resizable(width=False, height=False)
@@ -19,9 +26,6 @@ positionDown = int(GUI.winfo_screenheight()/2 - 186/2)
 GUI.geometry("+{}+{}".format(positionRight, positionDown))
 
 connection_status = False
-value1 = 0
-value2 = 0
-value3 = 0
 refresh_rate = 40 ## 40Hz
 
 def ConnectionEnd():
@@ -68,9 +72,6 @@ def Try_Connection():
 def SerialDataAcq():
     global connection_status
     global serial_object
-    global value1
-    global value2
-    global value3
 
     while(1):
         time.sleep(0.01) #delay for do not overload the CPU
@@ -80,37 +81,36 @@ def SerialDataAcq():
                 if(len(serial_input) == 12):
 
                     v1 = [serial_input[5], serial_input[4]]
-                    value1 = int.from_bytes(v1,byteorder = 'big')
+                    ch1.value = int.from_bytes(v1,byteorder = 'big')
 
                     v2 = [serial_input[7], serial_input[6]]
-                    value2 = int.from_bytes(v2,byteorder = 'big')
+                    ch2.value = int.from_bytes(v2,byteorder = 'big')
                     
                     v3 = [serial_input[9], serial_input[8]]
-                    value3 = int.from_bytes(v3,byteorder = 'big')
+                    ch3.value = int.from_bytes(v3,byteorder = 'big')
                 
                 
             except:
                 print("Connection Error")
+                ConnectionEnd()
 
 def UpdateGUI():
     global connection_status
-    global value1
-    global value2
-    global value3
+
     while(1):
         time.sleep(1/refresh_rate)#refresh rate 
         while(connection_status):
             time.sleep(1/refresh_rate)
             #print("{} | {} | {}".format(value1,value2,value3))
 
-            input1.set(str(value1))
-            pbar1["value"] = value1
+            input1.set(str(ch1.value))
+            pbar1["value"] = ch1.value
 
-            input2.set(str(value2))
-            pbar2["value"] = value2
+            input2.set(str(ch2.value))
+            pbar2["value"] = ch2.value
 
-            input3.set(str(value3))
-            pbar3["value"] = value3
+            input3.set(str(ch3.value))
+            pbar3["value"] = ch3.value
                 
 
 myThread1 = threading.Thread(target = UpdateGUI)
@@ -139,15 +139,15 @@ Label(text = "mario.luggar@gmial.com",font =("",7),bg = bg_color,fg = '#F24C3D')
 
 #ENTRY
 item_name1 = Entry(width = 15,bg = bg_color, fg = label_color, justify = "center")
-item_name1.insert(INSERT,"ADC1")
+item_name1.insert(INSERT,str(ch1.name))
 item_name1.place(x = 80, y = 20, anchor = "center")
 
 item_name2 = Entry(width = 15,bg = bg_color, fg = label_color, justify = "center")
-item_name2.insert(INSERT,"ADC2")
+item_name2.insert(INSERT,str(ch2.name))
 item_name2.place(x = 80+155, y = 20, anchor = "center")
 
 item_name3 = Entry(width = 15,bg = bg_color, fg = label_color, justify = "center")
-item_name3.insert(INSERT,"ADC3")
+item_name3.insert(INSERT,str(ch2.name))
 item_name3.place(x = 80+155+155, y = 20, anchor = "center")
 
 
@@ -169,29 +169,29 @@ ProgressBar_style.configure("blue.Horizontal.TProgressbar", troughcolor=bg_color
 ProgressBar_style.configure("yellow.Horizontal.TProgressbar", troughcolor=bg_color, background = yellow_color,bordercolor=yellow_color, lightcolor=yellow_color, darkcolor=yellow_color)
 
 
-pbar1 = ttk.Progressbar(style = "red.Horizontal.TProgressbar",orient = HORIZONTAL, mode = 'determinate', length = 130, max = 1024)
+pbar1 = ttk.Progressbar(style = "red.Horizontal.TProgressbar",orient = HORIZONTAL, mode = 'determinate', length = 130, max = ch1.max)
 pbar1.place(x = 80, y = 110, anchor = "center")
-pbar1["value"] = 512
+pbar1["value"] = ch1.value
 
-pbar2 = ttk.Progressbar(style = "blue.Horizontal.TProgressbar",orient = HORIZONTAL, mode = 'determinate', length = 130, max = 1024)
+pbar2 = ttk.Progressbar(style = "blue.Horizontal.TProgressbar",orient = HORIZONTAL, mode = 'determinate', length = 130, max = ch2.max)
 pbar2.place(x = 80+155, y = 110, anchor = "center")
-pbar2["value"] = 512
+pbar2["value"] = ch2.value
 
-pbar3 = ttk.Progressbar(style = "yellow.Horizontal.TProgressbar",orient = HORIZONTAL, mode = 'determinate', length = 130, max = 1024)
+pbar3 = ttk.Progressbar(style = "yellow.Horizontal.TProgressbar",orient = HORIZONTAL, mode = 'determinate', length = 130, max = ch3.max)
 pbar3.place(x = 80+155+155, y = 110, anchor = "center")
-pbar3["value"] = 512
+pbar3["value"] = ch3.value
 
 #VARIABLE LABELS
 input1   = StringVar()
-input1.set("0")
+input1.set(str(ch1.value))
 Label(textvariable = input1,font =("", 25),bg = bg_color,fg = label_color).place(x = 80, y= 65,anchor= "center")
 
 input2   = StringVar()
-input2.set("0")
+input2.set(str(ch2.value))
 Label(textvariable = input2,font =("", 25),bg = bg_color,fg = label_color).place(x = 80+155, y= 65,anchor= "center")
 
 input3   = StringVar()
-input3.set("0")
+input3.set(str(ch3.value))
 Label(textvariable = input3,font =("", 25),bg = bg_color,fg = label_color).place(x = 80+155+155, y= 65,anchor= "center")
 
 

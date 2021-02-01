@@ -4,6 +4,7 @@ from colors import *
 from tkinter import *
 from tkinter import ttk
 import serial
+import webbrowser
 
 class Channel:
     name = "Variable"
@@ -27,6 +28,26 @@ GUI.geometry("+{}+{}".format(positionRight, positionDown))
 
 connection_status = False
 refresh_rate = 40 ## 40Hz
+
+def Create_SetWindow():
+    pass
+
+def Go2Info():
+     webbrowser.open("https://github.com/MA-Lugo/PySerial_DataAcq")
+
+
+menubar = Menu (GUI)
+GUI.config(menu = menubar)
+settingsmenu = Menu(menubar,tearoff=0,activebackground= bg_color,activeforeground = label_color)
+menubar.add_cascade(label="Settings", menu=settingsmenu)
+
+settingsmenu.add_command(label="Channels",command =Create_SetWindow)
+settingsmenu.add_separator()
+settingsmenu.add_command(label="Salir", command=GUI.quit)
+
+helpmenu = Menu(menubar,tearoff=0,activebackground= red_color,activeforeground = label_color)
+menubar.add_cascade(label="Help", menu=helpmenu)
+helpmenu.add_command(label="About",command =Go2Info)
 
 def ConnectionEnd():
     global connection_status

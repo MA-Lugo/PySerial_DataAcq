@@ -24,7 +24,7 @@ Aqui hay algunos ejemplos de como hacerlo utilizando un microcontrolador:
 
 ### Formato de la trama de datos:
 
-![](https://drive.google.com/uc?export=view&id=10XtMuIc4btggl0k4_M73s3-ob4xM6Au5)
+![](https://drive.google.com/uc?export=view&id=1q3gFOxY2Vs9MegJ6FBB_ZFPeaLjcvTZP)
 
 ### Cambiar el formato de visualización de los datos:
 

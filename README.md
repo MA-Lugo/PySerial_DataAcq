@@ -20,7 +20,7 @@ Para comenzar es necesario contar con el microcontrolador encargado de enviar
 los datos de forma serial.
 
 Aqui hay algunos ejemplos de como hacerlo utilizando un microcontrolador:
-* [PIC16F1709] (https://github.com/MA-Lugo/PIC16F1709_drivers/blob/main/006DATA_AQC_example.c)
+* [PIC16F1709](https://github.com/MA-Lugo/PIC16F1709_drivers/blob/main/006DATA_AQC_example.c)
 
 ## Autor ✒️
 

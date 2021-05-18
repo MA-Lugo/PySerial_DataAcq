@@ -22,7 +22,7 @@ los datos de forma serial.
 Aqui hay algunos ejemplos de como hacerlo utilizando un microcontrolador:
 * [PIC16F1709](https://github.com/MA-Lugo/PIC16F1709_drivers/blob/main/006DATA_AQC_example.c)
 
-### Formato de la trama de datos:
+### [Formato de la trama de datos](https://drive.google.com/uc?export=view&id=1q3gFOxY2Vs9MegJ6FBB_ZFPeaLjcvTZP):
 
 ![](https://drive.google.com/uc?export=view&id=1q3gFOxY2Vs9MegJ6FBB_ZFPeaLjcvTZP)
 
